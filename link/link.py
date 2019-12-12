@@ -1,8 +1,8 @@
 """
- Name: è¿è¿çœ‹æ¸¸æˆ
+ Name: Á¬Á¬¿´ÓÎÏ·
  Athor: mike-meng
  Email: mml1106@126.com
- Description: è¿è¿çœ‹
+ Description: Á¬Á¬¿´
 """
 
 import sys, time
@@ -136,13 +136,14 @@ class Game:
         self.element = []
         self.selected = (0,0)
         self.isSelect = False
+        self.autoDetect = False
 
         #init game
         pygame.init()
         pygame.mixer.init()
         self.load_source()
         self.screen = pygame.display.set_mode((self.width*self.grid_size, self.height*self.grid_size))
-        pygame.display.set_caption('è¿è¿çœ‹')
+        pygame.display.set_caption('linkmatching')
         self.clock = pygame.time.Clock()
         self.game_draw()
 
@@ -206,7 +207,7 @@ class Game:
                     p[1][0]*self.grid_size + self.grid_size//2)
             self.line_draw(p1,p2,RED)
         pygame.display.update()
-        time.sleep(0.2)
+        time.sleep(1)
 
     def check_valid(self,x):
         if x[0] <= 0 or x[0] >= self.height-1  or \
@@ -243,7 +244,12 @@ class Game:
             for event in pygame.event.get():
                     if event.type == QUIT:
                         sys.exit()
-                    if event.type == MOUSEBUTTONDOWN:
+                    elif event.type == KEYDOWN:
+                        if event.key in (K_w, K_UP):
+                            self.autoDetect = True
+                        if event.key in (K_s, K_DOWN):
+                            self.autoDetect = False
+                    elif event.type == MOUSEBUTTONDOWN:
                         pos = pygame.mouse.get_pos()
                         x = pos[1]//self.grid_size
                         y = pos[0]//self.grid_size
@@ -274,7 +280,8 @@ class Game:
 
             self.game_draw()
             time.sleep(0.04)
-            self.auto_detect()
+            if self.autoDetect:
+                self.auto_detect()
 
 game = Game(15,8)
 game.run()
