@@ -5,7 +5,7 @@ import random
 
 
 def TIME_INTERVAL():
-    return 0.01
+    return 0.001
     #return 0.375+random.uniform(-0.075, 0.075)+0.13*progress
     
 def TIME_INTERVAL_1():
